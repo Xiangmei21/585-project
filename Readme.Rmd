@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE,fig.path = "readme_images/",warning=FALSE, mes
 
 ## Edulevel package
 
-This package contains one data set and 4 functions. data set "tidy" is the cleaned data of Education levels of adults more than 25 years old in US from 1970 to 2015. Function "showcounty" returns a list of counties for a given state abbrevation, countyname can be used in "lineEd" function, "lineEd" plots all education level lines for a given county, "mapstate" function maps the "count" or "precent" data on the scale of states in US for a given education level, "mapcounty" function maps maps the "count" or "precent" data on the scale of counties for a given state and a given education. level
+This package contains one data set and 4 functions. data set "tidy" is the cleaned data of Education levels of adults more than 25 years old in US from 1970 to 2015. Function "showcounty" returns a list of counties for a given state abbrevation, countyname can be used in "lineEd" function, "lineEd" plots all education level lines for a given county, "mapstate" function maps the "count" or "precent" data on the scale of states in US for a given education level, "mapcounty" function maps maps the "count" or "precent" data on the scale of counties for a given state and a given education level.
 
 ```{r}
 library(Edulevel)
