@@ -30,7 +30,7 @@ lineEd <- function(stateshort,countyname){
     geom_point(aes(color = level)) + geom_path(aes(group = level, color = level)) +
     facet_wrap( ~ type, scale = "free") +
     theme_bw() + theme(legend.position = "bottom") +
-    ggtitle(paste(pick$Area[1], " ,", pick$State[1], sep ="")) +
+    ggtitle(paste(pick$Area[1], ", ", pick$State[1], sep ="")) +
     guides(color = guide_legend(nrow = 2, byrow = TRUE))
 }
 
@@ -108,7 +108,7 @@ mapcounty =  function(vtype="percent", levelint, stateshort, limit = 28){
       geom_polygon(aes(fill = value))  +
       scale_fill_gradient2(name = vtype, midpoint = min(area_all$value), mid = "white") +
       ggthemes::theme_map() + theme(legend.position = c(0.8, 0)) + facet_wrap(~ year) +
-      ggtitle(paste(edlevel," ,",stateshort,sep="")) +
+      ggtitle(paste(edlevel,", ",stateshort,sep="")) +
       ggrepel::geom_label_repel(
         aes(label = county),
         point.padding = unit(0.5, "lines"),
