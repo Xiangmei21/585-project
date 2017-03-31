@@ -16,6 +16,6 @@ Map the education level of all states.
 }
 \examples{
 lineEd("IA", "Story County")
-mapstate(edlevel="Bachelor's degree or higher")
-mapcounty(edlevel="Bachelor's degree or higher",stateshort="IA")
+mapstate(levelint = 4)
+mapcounty(levelint = 4,stateshort="IA")
 }

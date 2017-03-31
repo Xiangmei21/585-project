@@ -21,8 +21,8 @@ showcounty <- function(stateshort){
 #' @export
 #' @examples
 #' lineEd("IA", "Story County")
-#' mapstate(edlevel="Bachelor's degree or higher")
-#' mapcounty(edlevel="Bachelor's degree or higher",stateshort="IA")
+#' mapstate(levelint=4)
+#' mapcounty(levelint=4,stateshort="IA")
 lineEd <- function(stateshort,countyname){
   pick = tidy %>% filter(State == stateshort, Area == countyname)
   pick %>%
@@ -44,8 +44,8 @@ lineEd <- function(stateshort,countyname){
 #' @export
 #' @examples
 #' lineEd("IA", "Story County")
-#' mapstate(edlevel="Bachelor's degree or higher")
-#' mapcounty(edlevel="Bachelor's degree or higher",stateshort="IA")
+#' mapstate(levelint = 4)
+#' mapcounty(levelint = 4,stateshort="IA")
 mapstate = function(vtype="percent", levelint){
   if (levelint==1) edlevel = "Less than a high school diploma"
   else if (levelint==2) edlevel = "High school diploma only"
@@ -79,8 +79,8 @@ mapstate = function(vtype="percent", levelint){
 #' @export
 #' @examples
 #' lineEd("IA", "Story County")
-#' mapstate(edlevel="Bachelor's degree or higher")
-#' mapcounty(edlevel="Bachelor's degree or higher",stateshort="IA")
+#' mapstate(levelint = 4)
+#' mapcounty(levelint = 4,stateshort="IA")
 mapcounty =  function(vtype="percent", levelint, stateshort, limit = 28){
   if (levelint==1) edlevel = "Less than a high school diploma"
   else if (levelint==2) edlevel = "High school diploma only"
