@@ -1,0 +1,32 @@
+---
+title: "Edulevel"
+author: "Xiangmei Zhang"
+date: "3/31/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,fig.path = "readme_images/",warning=FALSE, message=FALSE)
+```
+
+## Edulevel package
+
+This package contains one data set and 4 functions. data set "tidy" is the cleaned data of Education levels of adults more than 25 years old in US from 1970 to 2015. Function "showcounty" returns a list of counties for a given state abbrevation, countyname can be used in "lineEd" function, "lineEd" plots all education level lines for a given county, "mapstate" function maps the "count" or "precent" data on the scale of states in US for a given education level, "mapcounty" function maps maps the "count" or "precent" data on the scale of counties for a given state and a given education level.
+
+```{r}
+library(Edulevel)
+library(tidyverse)
+state.abb
+```
+```{r}
+showcounty("AL")
+```
+```{r}
+lineEd("AL","Perry County")
+```
+```{r}
+mapstate(vtype="percent",levelint = 4)
+```
+```{r}
+mapcounty(levelint = 4,stateshort = "AL",limit = 30)
+```

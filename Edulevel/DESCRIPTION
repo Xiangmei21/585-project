@@ -1,0 +1,11 @@
+Package: Edulevel
+Type: Package
+Title: Plot the eduction level of adults in US
+Version: 0.1.0
+Author: Xiangmei Zhang, Xiangzhen Li
+Maintainer: Xiangmei <xmzhang@iastate.edu>
+Description: Plot the education level on state or county region on the map.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
