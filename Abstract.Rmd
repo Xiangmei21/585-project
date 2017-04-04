@@ -1,0 +1,15 @@
+---
+title: "Abstract"
+author: "Xiangmei Zhang, Xiangzhen Li"
+date: "2017/4/3"
+output: html_document
+---
+
+##Temporal changes and spatial distribution of educational level for the US
+
+An important indicator for comprehensive national strength, educational level information is collected at each Censuses of Population. The temporal changes and spatial distribution of educational level is a useful reference for investment, school district selection, and employment. However, it is not easy for a citizen to dig up this information and have a visual perception. In this study, we aim to provide a convenient visualization tools to help people obtain and analysis the temporal changes and spatial distribution of educational level for the US. The raw data is from the Census Bureau of US. Data technologies are needed to clean the data into a long tidy version, and check the completeness of the data.
+
+
+The main deliverable product will be an R package, named "Edulevel". This package contains the cleaned data of educational level for adults (more than 25 years old) for the US from 1970 to 2015. There will be four functions in this package. Function "showcounty" will return a list of counties names for a given state abbreviation, which will be used in other functions. Function "lineEd" will plot a line chart ("count" or "percent") of all (four levels) education levels for a given county. Function "mapstate" will give a map of the "count" or "percent" data on the scale of states in US for a given education level. Function "mapcounty" will give a map of the "count" or "percent" data on the scale of counties for a given state and a given education level. This package can help the users to identify the temporal changes and spatial distribution of educational level for an area of interest.
+
+The link of Github path is: https://github.com/Xiangmei21/585-project
