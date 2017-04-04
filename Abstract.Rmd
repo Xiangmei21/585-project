@@ -5,10 +5,6 @@ date: "2017/4/3"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ##Temporal changes and spatial distribution of educational level for the US
 
 An important indicator for comprehensive national strength, educational level information is collected at each Censuses of Population. The temporal changes and spatial distribution of educational level is a useful reference for investment, school district selection, and employment. However, it is not easy for a citizen to dig up this information and have a visual perception. In this study, we aim to provide a convenient visualization tools to help people obtain and analysis the temporal changes and spatial distribution of educational level for the US. The raw data is from the Census Bureau of US. Data technologies are needed to clean the data into a long tidy version, and check the completeness of the data.
