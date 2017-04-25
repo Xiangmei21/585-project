@@ -84,7 +84,7 @@ ui <- navbarPage(
 server <- function(input, output, session) {
   output$showCounty <- renderUI({
     p.county = showcounty(input$state)
-    selectInput("county", "County: ", choices = p.county, selectize=TRUE)
+    selectInput("county", h3("Choose a County: "), choices = p.county, selectize=TRUE)
   })
   
   output$table <- DT::renderDataTable(DT::datatable({
