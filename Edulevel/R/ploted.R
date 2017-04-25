@@ -60,7 +60,7 @@ mapstate = function(vtype="percent", levelint){
   select = isstate %>% filter(type == vtype, level == edlevel)
   all = left_join(select, map, by = c("state" = "region"))
 
-  all %>% ggplot(aes(x = long, y = lat, group = state)) +
+  all%>%filter(State!="US") %>% ggplot(aes(x = long, y = lat, group = state)) +
     geom_polygon(aes(fill = value))  +
     scale_fill_gradient2(name = vtype, midpoint = min(all$value), mid = "white") +
     ggthemes::theme_map() + theme(legend.position = c(0.8, 0)) + facet_wrap(~ year) +
@@ -103,7 +103,7 @@ mapcounty =  function(vtype="percent", levelint, stateshort, limit = 28){
     area_all = left_join(area,
                          map2 %>% filter(abb == stateshort),
                          by = c("county" = "subregion"))
-    area_all %>%
+    area_all %>% filter(FIPS%%1000!=0) %>% 
       ggplot(aes(x = long, y = lat, group = county)) +
       geom_polygon(aes(fill = value))  +
       scale_fill_gradient2(name = vtype, midpoint = min(area_all$value), mid = "white") +
