@@ -87,9 +87,26 @@ server <- function(input, output, session) {
     selectInput("county", "County: ", choices = p.county, selectize=TRUE)
   })
   
-  output$table <- DT::renderDataTable({
-    DT::datatable(tidy, options = list(orderClasses = TRUE))
-  })
+  output$table <- DT::renderDataTable(DT::datatable({
+    data <- Edulevel::tidy
+    if (input$t_state != "All") {
+      data <- data[data$State == input$t_state,]
+    }
+    if (input$t_area != "All") {
+      data <- data[data$Area == input$t_area,]
+    }
+    if (input$t_level != "All") {
+      data <- data[data$level == input$t_level,]
+    }
+    if (input$t_type != "All") {
+      data <- data[data$type == input$t_type,]
+    }
+    if (input$t_year != "All") {
+      data <- data[data$year == input$t_year,]
+    }
+    data
+  }))
+  
   
   output$plotstate <- renderPlotly({
     
