@@ -6,10 +6,11 @@
 #
 #    http://shiny.rstudio.com/
 #
-
+library(dplyr)
 library(shiny)
 library(Edulevel)
-
+library(ggplot2)
+library(DT)
 # Define UI for application that draws a histogram
 ui <- fluidPage(
    
@@ -44,7 +45,7 @@ ui <- fluidPage(
    hr(),
    fluidRow(column(3, verbatimTextOutput("value_state"))),
    #show county
-   checkboxInput("countyname", label = "Show county name", value = TRUE),
+   checkboxInput("countyname", label = "Show county name", value = FALSE),
    mainPanel(h5(textOutput("county"))),
    
    hr(),
@@ -75,6 +76,47 @@ ui <- fluidPage(
    #plot
    mainPanel(
      plotOutput("lineEd")
+   ),
+   
+   #5 Data Table
+   mainPanel(h3("Data table for educational level")),
+   
+   # Create a new Row in the UI for selectInputs
+   fluidRow(
+     column(2,
+            selectInput("t_state",
+                        "State:",
+                        c("All",
+                          unique(as.character(tidy$State))))
+     ),
+     column(2,
+            selectInput("t_area",
+                        "Area:",
+                        c("All",
+                          unique(as.character(tidy$Area))))
+     ),
+     column(3,
+            selectInput("t_level",
+                        "Education level:",
+                        c("All",
+                          unique(as.character(tidy$level))))
+     ),
+     column(2,
+            selectInput("t_type",
+                        "Type:",
+                        c("All",
+                          unique(as.character(tidy$type))))
+     ),
+     column(2,
+            selectInput("t_year",
+                        "Year:",
+                        c("All",
+                          unique(as.character(tidy$year))))
+     )
+   ),
+   # Create a new row for the table.
+   fluidRow(
+     DT::dataTableOutput("table")
    )
 )
 # Define server logic required to draw a histogram
@@ -83,7 +125,11 @@ server <- function(input, output) {
   output$value_type <- renderPrint({input$type})
   output$value_level <- renderPrint({input$level})
   output$value_state <- renderPrint({input$state})
-  output$value_countyname <- renderPrint({showcounty(input$state)})
+  output$value_countyname <- renderPrint({
+    if (input$countyname == TRUE)
+      showcounty(input$state)
+    else
+      input$countyname})
   output$value_limit <- renderPrint({input$limit})
   output$value_county <- renderPrint({input$county})
   #2. US map
@@ -98,10 +144,31 @@ server <- function(input, output) {
   
   #4 County name
   
-  #5 County line
+  #5 County line: lineEd
   output$lineEd <- renderPlot({
     lineEd(input$state, input$county)
   })
+  
+  #6 Data table
+  output$table <- DT::renderDataTable(DT::datatable({
+    data <- Edulevel::tidy
+    if (input$t_state != "All") {
+      data <- data[data$State == input$t_state,]
+    }
+    if (input$t_area != "All") {
+      data <- data[data$Area == input$t_area,]
+    }
+    if (input$t_level != "All") {
+      data <- data[data$level == input$t_level,]
+    }
+    if (input$t_type != "All") {
+      data <- data[data$type == input$t_type,]
+    }
+    if (input$t_year != "All") {
+      data <- data[data$year == input$t_year,]
+    }
+    data
+  }))
   
 }
 
