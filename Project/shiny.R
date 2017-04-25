@@ -15,18 +15,24 @@ ui <- navbarPage(
     tabPanel(h3("Plot"),
              sidebarLayout(
                sidebarPanel(
-                 selectInput("state", "State: ", choices = state.list),
+                 radioButtons("type", label = h3("Choose a type:"),
+                              choices = list("Percent" = "percent", "Count" = "count"), 
+                              selected = "percent"),
+                 selectInput("state", h3("Choose a State:"), choices = state.list, selectize=TRUE),
                  uiOutput("showCounty"),
-                 radioButtons("level","Education level", 
+                 radioButtons("level",h3("Education level:"), 
                               choices =list("Less than a high school diploma"=1, "High school diploma only"=2, 
-                                            "Some college (1-3 years)"=3, "Bachelor's degree or higher"=4)),
-                 sliderInput("limit","Labeled county greater than the limit %", 
-                             min = 0, max = 100, value = 30)
+                                            "Some college (1-3 years)"=3, "Bachelor's degree or higher"=4),
+                              selected =4)
+                 #sliderInput("limit",h3("List areas greater than the limit %"), 
+                 #             min = 0, max = 100, value = 30)
                ),
                mainPanel(
-                 plotlyOutput("plotstate"),
-                 plotlyOutput("plotcounty"),
-                 plotlyOutput("linecounty")
+                 tabsetPanel(
+                   tabPanel("Country level",plotlyOutput("plotstate")),
+                   tabPanel("State level",plotlyOutput("plotcounty")),
+                   tabPanel("County level",plotlyOutput("linecounty"))
+                 )
                  )
              )),
     tabPanel(
@@ -78,7 +84,7 @@ ui <- navbarPage(
 server <- function(input, output, session) {
   output$showCounty <- renderUI({
     p.county = showcounty(input$state)
-    selectInput("county", "County: ", choices = p.county)
+    selectInput("county", "County: ", choices = p.county, selectize=TRUE)
   })
   
   output$table <- DT::renderDataTable({
@@ -86,17 +92,18 @@ server <- function(input, output, session) {
   })
   
   output$plotstate <- renderPlotly({
-    gg1 <- mapstate(vtype="percent",levelint=input$level)
-    print(ggplotly(gg1))
+    
+    ggplotly(mapstate(vtype=input$type,levelint=input$level))
   })
   output$plotcounty <- renderPlotly({
-    gg2 <- mapcounty(vtype="percent",levelint=input$level, stateshort = input$state, limit=input$limit)
+    gg2 <- mapcounty(vtype=input$type,levelint=input$level, stateshort = input$state)
     print(ggplotly(gg2))
   })
   
+  
   output$linecounty <- renderPlotly({
-    gg2 <- lineEd(stateshort = input$state, countyname = input$county)
-    print(ggplotly(gg2))
+    gg3 <- lineEd(stateshort = input$state, countyname = input$county)
+    print(ggplotly(gg3))
   })
   
 }
