@@ -72,7 +72,7 @@ ui <- fluidPage(
    textInput("county", label = h3("Input county name"), value = "Story County"),
    
    hr(),
-   fluidRow(column(3, verbatimTextOutput("value_county"))),
+   fluidRow(column(4, verbatimTextOutput("value_county"))),
    #plot
    mainPanel(
      plotOutput("lineEd")
@@ -80,7 +80,7 @@ ui <- fluidPage(
    
    #5 Data Table
    mainPanel(h3("Data table for educational level")),
-   
+   fluidRow(),
    # Create a new Row in the UI for selectInputs
    fluidRow(
      column(2,
@@ -89,7 +89,7 @@ ui <- fluidPage(
                         c("All",
                           unique(as.character(tidy$State))))
      ),
-     column(2,
+     column(3,
             selectInput("t_area",
                         "Area:",
                         c("All",
