@@ -51,7 +51,7 @@ head(tidy)
 ##Package: `Edulevel` 
 
 - Visualization tools to analysis the temporal changes and spatial distribution of educational level for the US
-- Four functions: *lineEd*, * showcounty*, *mapstate*, *mapcounty*. 
+- Four functions: *lineEd*, *showcounty*, *mapstate*, *mapcounty*. 
 - One dataset: *tidy*.
 
 ##Package: `Edulevel`
@@ -60,70 +60,64 @@ head(tidy)
 library(ggplot2)
 library(tidyverse)
 library(rvest)
+library(plotly)
 
 showcounty("IA")
 ```
 
 ##Package: `Edulevel`
 *lineEd* : Plot the education level of a given county.
-```{r warning = FALSE, message= FALSE}
+```{r warning = FALSE, message= FALSE, fig.height=4}
 #Story county in Iowa
-
 lineEd("IA", "Story County")
 ```
 
 ##Package: `Edulevel`
 The education levels is different from county to county.
-```{r warning = FALSE, message= FALSE}
+```{r warning = FALSE, message= FALSE,fig.height=4}
 #Liberty county in Florida
-
-lineEd("FL", "Liberty County")
+ggplotly(lineEd("FL", "Liberty County"))
 ```
 
 ##Package: `Edulevel`
 *mapstate* :Map the education level of all states.
-```{r warning = FALSE, message= FALSE}
+```{r warning = FALSE, message= FALSE,fig.height=4.5}
 #Education level: 4="Bachelor's degree or higher".
-
 mapstate(vtype = "percent", levelint = 4)
 ```
 
 ##Package: `Edulevel`
 ```{r warning = FALSE, message= FALSE}
 #Education level: 1="Less than a high school diploma"
-
-mapstate(vtype = "percent", levelint = 1)
-
+ggplotly(mapstate(vtype = "percent", levelint = 1))
 ```
 
 ##Package: `Edulevel`
 "percent" is better than "count" in here.
-```{r warning = FALSE, message= FALSE}
+```{r warning = FALSE, message= FALSE,fig.height=4.5}
 #Education level: 1="Less than a high school diploma"
-
-mapstate(vtype = "count", levelint = 1)
-
+ggplotly(mapstate(vtype = "count", levelint = 1))
 ```
 
 ##Package: `Edulevel`
 *mapcounty* Map the education level of a given state.
-```{r warning = FALSE, message= FALSE}
+```{r warning = FALSE, message= FALSE,fig.height=4.5}
 #limit: Label county names whose percentage > limit.
-
 mapcounty(vtype = "percent", levelint = 4,stateshort="IA", limit=30)
-
 ```
 
 ##Package: `Edulevel`
 *mapcounty* Map the education level of a given state.
-```{r warning = FALSE, message= FALSE}
+```{r warning = FALSE, message= FALSE,fig.height=4.5}
 #Change limit to 40
-
 mapcounty(vtype = "percent", levelint = 4,stateshort="IA", limit=40)
-
 ```
 
 
 ##Shiny app
 
-[Shiny: Edulevel](Edu_shiny.html)
+Shiny: Edulevel
+```{r warning = FALSE, echo=T,eval=FALSE, message=FALSE}
+shiny::runGitHub("585-project", "Xiangmei21", 
+                 subdir = "Project/shiny.R")
+```
