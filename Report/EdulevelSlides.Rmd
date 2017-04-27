@@ -31,7 +31,7 @@ Xiangmei Zhang & Xiangzhen Li
 
 ```{r warning = FALSE, message= FALSE}
 dat <- readxl::read_excel("../Education.xls", skip = 4)
-head(dat)[1,]
+colnames(dat)
 ```
 
 

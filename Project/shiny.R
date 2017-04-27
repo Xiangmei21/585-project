@@ -1,6 +1,6 @@
 library(shiny)
 require(ggplot2)
-require(dplyr)
+require(tidyverse)
 library(plotly)
 library(Edulevel)
 
@@ -110,7 +110,8 @@ server <- function(input, output, session) {
   
   output$plotstate <- renderPlotly({
     
-    ggplotly(mapstate(vtype=input$type,levelint=input$level))
+    gg1 <- mapstate(vtype=input$type,levelint=input$level)
+    print(ggplotly(gg1))
   })
   output$plotcounty <- renderPlotly({
     gg2 <- mapcounty(vtype=input$type,levelint=input$level, stateshort = input$state)
