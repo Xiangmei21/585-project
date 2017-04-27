@@ -50,7 +50,7 @@ head(tidy)
 
 ##Package: `Edulevel` 
 
-- Visualization tools to analysis the temporal changes and spatial distribution of educational level for the US
+- Visualization tools to analyze the temporal changes and spatial distribution of educational level for the US
 - Four functions: *lineEd*, *showcounty*, *mapstate*, *mapcounty*. 
 - One dataset: *tidy*.
 
