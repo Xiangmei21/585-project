@@ -68,10 +68,15 @@ lineEd("IA", "Story County")
 
 ```
 
-If the input is “Story” instead of “Story County”, R will give an error message. 
+If the input is “Story” instead of “Story County”, R will give an error message. The plot is faceted by value type “count” or “percentage”, y axes is the value and x axes is the year. 
 We could see from the above output plot that the people with Bachelor’s degree or higher (red line) is increasing rapidly over the years. The percentage of adults with a Bachelor’s degree or higher is increased by about 20% percentage in 35 years. The people who has been to college is also increasing. Meanwhile, the people who has high school diploma or lower level is decreasing. The figure tells us the education level in Story county is stepping into a good direction. It seems that without considering the education progress in US, Story county is a pretty good place to stay if parents are emphasis on children’s education. 
 
 Actually, the education level of Story county is increasing rapidly. Figure below shows the educational level of Liberty county in Florida. The people with high school diploma is increasing rapidly, meanwhile the people with Bachelor’s degree is increasing pretty slowly. Also, there are other counties that people with high education level is decreasing and population that only been to high school increasing, such as Yukon-Koyukuk Census area in Alaska.
+
+Using the function "lineEd" we can detect differences from county to county. For example,
+from the plot of story county, we can see for both count and percentage, there is an obvious increase for bachelor’s degree level and some college level from 1970 to 2015, 
+while for liberty county in florida, the percentage of people who have a bachelor’s degree or higher didn’t change too much along the time.
+
 
 ```{r, message=FALSE,warning=FALSE}
 lineEd("FL", "Liberty County")
@@ -82,14 +87,16 @@ Function “mapstate” provide a summary map of education status of US. The inp
 
 ```{r, message=FALSE,warning=FALSE}
 mapstate("percent", 4)
+mapstate("percent", 1)
 ```
 
-It is obvious that the people with Bachelor’s degree is increasing. However, people with less than high school is decreasing obviously if we input command `mapstate("percent", 1)`. 
+From this plot, it is clear that the percentage of people who have a bachelor’s degree or higher went up from 1970 to 2015, while the percentage of people who have less than a high school diploma declined with time. 
 
-Function “mapcounty” has similar output with “mapstate”, except the names are county rather than state. The input parameters are “type”, “level”, “stateshort” and “limit”. Parameters “type” and “level” have the same usage with “mapstate’. Parameter “stateshort” is the two-letter abbreviated state name. Parameter “limit” means, if a county who has a percentage greater than “limit”, the county name will be labeled; default “limit” is 28. For example, if we use following command to look for people with Bachelor's degree in Iowa, figure below is the output. The labeled counties are adult percentage higher than 28%.
+Function “mapcounty” has similar output with “mapstate”, except the names are county rather than state. The input parameters are “type”, “level”, “stateshort” and “limit”. Parameters “type” and “level” have the same usage with “mapstate’. Parameter “stateshort” is the two-letter abbreviated state name. Parameter “limit” means, if a county who has a percentage greater than “limit”, the county name will be labeled; default “limit” is 28. For example, if we use following command to look for people with Bachelor's degree in Iowa, figure below is the output. The labeled counties are adult percentage higher than 28%. In this plot, we can see for bachelor degree or higher level, there are increasing number of counties whose percentage are larger than thirty.
+
 
 ```{r, message=FALSE,warning=FALSE}
-mapcounty("percent",levelint = 4,stateshort="IA")
+mapcounty("percent",levelint = 4,stateshort="IA",limit=28)
 ```
 
 
