@@ -31,7 +31,7 @@ knitr::kable(rawdata, caption = "Table 2.1 Part of raw data")
 
 ### 2.2 Data clean
 
-The raw data might have problems for R to select information even it looks like clean. There might be missing data and wrong data points. The hybrid column name is combination of educational level and year which is not straightforward for R to select either educational level or time point. The word description for the same educational level is not exactly the same. Besides, the format of the dataset is not convenient for users. So, several steps are needed to make the dataset tidy before the application stage.  
+The raw data might have problems for R to select information from even it looks like clean. There might be missing data and wrong data points. The hybrid column name is combination of educational level and year which is not straightforward for R to select either educational level or time point. The word description for the same educational level is not exactly the same. Besides, the format of the dataset is not convenient for users. So, several steps are needed to make the dataset tidy before the application stage.  
 
 First step is to revise the dataset into a tidy format. R Function “gather” is used to gather columns 8 which is first column of educational level variables to the last column into new column “values”, and previous column name which indicate the educational variables into new column “education”. Other seven attributes columns do not change. We also use R function “separate” to separate cells under Column “education” into Column “level” and “year”. For example, first row of Column “education” is “Less than a high school diploma, 1970”; it is separated into two columns: Column “level” which has value of “Less than a high school diploma” and Column “year” which has value of “1970”. In the same time, four columns of not useful attributes are deleted using R Function “select”. Then, we add a Column “type” with R Function “mutate” to distinguish if the value is a count of people or percentage of adults with an educational level. Thus, we already have an initial format of dataset. However, there are still several simple changes needed. R Function “parse_number” is used to drop the non-numeric characters before or after the first number in Column “FIPS”. R Function “trimws” is used to remove the whitespace in Column “year”. 
 
@@ -50,59 +50,79 @@ knitr::kable(tidy6, caption = "Table 2.2 The first six rows of tidy data")
 ## 3.	R package “Edulevel” 
 
 
-The main deliverable product of this project is an R package and a shiny app. The package is used for people who have experience on R and grasp the skills to apply simple R functions. The package called “Edulevel”, which contains one dataset and four functions. The dataset is the tidy data names “tidy” from Section 2 (showed in Table 2.3 as an example) which contains information of four educational level for adults (more than 25 years old) in US from 1970 to 2015. The dataset is stored using “LazyData”. Function "showcounty" will return a list of county names for a given state abbreviation, which will be used in other functions, and it also provide reference for users when using other functions. Function "lineEd" will plot a line chart ("count" or "percent") of all (four levels) education levels for a given county. Function "mapstate" will give a map of the "count" or "percent" data on the scale of states in US for a given education level. Function "mapcounty" will give a map of the "count" or "percent" data on the scale of counties for a given state and a given education level.
+The main deliverable product of this project is an R package and a shiny app. The package is used for people who have experience on R and grasp the skills to apply simple R functions. The package called “Edulevel”, which contains one dataset and four functions. The dataset is the tidy data names “tidy” from Section 2 (showed in Table 2.2 as an example) which contains information of four educational level for adults (more than 25 years old) in US from 1970 to 2015. The dataset is stored using “LazyData”. Function "showcounty" will return a list of county names for a given state abbreviation, which will be used in other functions, and it also provide reference for users when using other functions. Function "lineEd" will plot a line chart ("count" or "percent") of all (four levels) education levels for a given county. Function "mapstate" will give a map of the "count" or "percent" data on the scale of states in US for a given education level. Function "mapcounty" will give a map of the "count" or "percent" data on the scale of counties for a given state and a given education level. The plot function is this package all work well with “ggplotly”.
 
-When using function “showcounty”, the user need to specify the two-letter abbreviated state name that is interested in. Since the state name is character, it has to be quoted in double quotes. For example, if we are interested in Iowa, the command and output is:
+###`showcounty`
+
+When using function “showcounty”, the user need to specify the two-letter abbreviated state name that is interested in. Since the state name is character, it has to be quoted in double quotes. For example, if we are interested in Iowa, the command is shown below. The output is a list of county names of Iowa state. The code below shows first 20 county names.
 
 ```{r, message=FALSE,warning=FALSE}
 library(Edulevel)
 library(tidyverse)
-showcounty("IA")
+#show list of counties in Iowa state
+showcounty("IA") [1:20]
 
 ```
 
-Function “lineEd” is used when one is interested in one specific county and want to analyze the trend educational level in the past years. The input of the function is the abbreviated state name and county name. The state name and county name should be quoted in double quotes. The county name has to be exactly the same with the county name in the dataset “tidy”. If the user is not clear with the spell of county name, function “showcounty” could help. The output of the function is a plot with year as the x-axis and value (count or percentage) as the y-axis. The data is group by four educational level with four different color and facet by value type (count or percentage). For example, to find the educational level in past years of Story county in Iowa, we could use following command:
+###`lineEd`
+
+Function “lineEd” is used when one is interested in one specific county and want to analyze the trend educational level in the past years. The input of the function is the abbreviated state name and county name. The state name and county name should be quoted in double quotes. The county name has to be exactly the same with the county name in the dataset “tidy”. If the user is not clear with the spell of county name, function “showcounty” could help. The output of the function is a plot of four educational level of the specific county. The data is group by four educational level with four different color and facet by value type (count or percent). For example, to find the detailed educational level in past years of Story county in Iowa, we could use following command. In this output, the left plot is count (y-axis) of an educational level in Story county of the five time points from year 1970 to 2015 (x-axis). The right plot is percent of adults who have an educational level in Story county in the five time points from year 1970 to 2015. The different color means different educational level, e.g. the red line shows the amount of people who have Bachelor’s degree or higher of Story count.
 
 ```{r, message=FALSE,warning=FALSE}
+#Plot educational level of Story county in Iowa
 lineEd("IA", "Story County")
 
 ```
 
-If the input is “Story” instead of “Story County”, R will give an error message. The plot is faceted by value type “count” or “percentage”, y axes is the value and x axes is the year. 
+Please notice that if the input of “countyname” is “Story” instead of “Story County”, R will give an error message. 
 We could see from the above output plot that the people with Bachelor’s degree or higher (red line) is increasing rapidly over the years. The percentage of adults with a Bachelor’s degree or higher is increased by about 20% percentage in 35 years. The people who has been to college is also increasing. Meanwhile, the people who has high school diploma or lower level is decreasing. The figure tells us the education level in Story county is stepping into a good direction. It seems that without considering the education progress in US, Story county is a pretty good place to stay if parents are emphasis on children’s education. 
 
-Actually, the education level of Story county is increasing rapidly. Figure below shows the educational level of Liberty county in Florida. The people with high school diploma is increasing rapidly, meanwhile the people with Bachelor’s degree is increasing pretty slowly. Also, there are other counties that people with high education level is decreasing and population that only been to high school increasing, such as Yukon-Koyukuk Census area in Alaska.
-
-Using the function "lineEd" we can detect differences from county to county. For example,
-from the plot of story county, we can see for both count and percentage, there is an obvious increase for bachelor’s degree level and some college level from 1970 to 2015, 
-while for liberty county in florida, the percentage of people who have a bachelor’s degree or higher didn’t change too much along the time.
+Using the function "lineEd" we can also detect differences from county to county. Actually, the education level of Story county is increasing rapidly after considering the education in other counties in US. Figure below shows the educational level of Liberty county in Florida. The people with high school diploma is increasing rapidly, meanwhile the people with Bachelor’s degree is increasing pretty slowly. Also, there are other counties that people with high education level is decreasing and population that only been to high school increasing, such as Yukon-Koyukuk Census area in Alaska. From the plot of story county, we can see for both count and percentage, there is an obvious increase for bachelor’s degree level and some college level from 1970 to 2015, while for counties like Liberty county in Florida or Yukon-Koyukuk Census area in Alaska, the percentage of people who have a bachelor’s degree or higher didn’t change too much along the time.
 
 
 ```{r, message=FALSE,warning=FALSE}
+# Plot educational level of Liberty county in Florida
 lineEd("FL", "Liberty County")
 
 ```
 
-Function “mapstate” provide a summary map of education status of US. The input parameters are “type” and “level”. Parameter “type” is either “count” or “percent”. There are four levels, with numeric number 1 to 4 to represent four educational levels from “Less than a high school diploma” to “Bachelor's degree or higher”. For example, the following command is asking for the layout of percentage of adults with Bachelor’s degree in US. 
+###`mapstate`
+
+Function “mapstate” provide a summary map of education status of US. The input parameters are “type” and “level”. Parameter “type” is either “count” or “percent”. There are four levels, with numeric number 1 to 4 to represent four educational levels from “Less than a high school diploma”, “High school diploma only", "Some college (1-3 years)”, “Bachelor's degree or higher”. For example, the following command is asking for the layout of percentage of adults with Bachelor’s degree in US. The output is a series of graphics which are plots from five time points of percent of adults with Bachelor’s degree or higher. Each of the US map plot is build up by unit of state. Deep color means high percent value, and light color means low percent value. For example, the code below is asking for percent of adults who have Bachelor’s degree or higher.
+
+From this plot, it is clear that the percentage of people who have a bachelor’s degree or higher went up from 1970 to 2015. With label of “ggplotly”, the state with highest percentage is Colorado. The percent of adults with Bachelor’s degree or higher in Colorado is up to 38.1% in 2015.
 
 ```{r, message=FALSE,warning=FALSE}
-mapstate("percent", 4)
+#General view of percent of adults who have Bachelor’s degree or higher.
+library(plotly)
+ggplotly(mapstate("percent", 4))
+```
+
+The code below shows the US map of people with less than a high school diploma. It is clear that from the type of “percent” map, the trend of percent of people with this educational level is decreasing. However, from the map with “count” as type, it is not obvious. The reason is that the population of US is increasing, while the percent of this educational level is decreasing. It turns out the absolute count has no obvious change. So from this kind of view, choose “percent” as type is better than “count”. 
+```{r, message=FALSE,warning=FALSE}
+#General view of count of people who have less than a high school diploma
+mapstate("count", 1)
+#General view of percent of people who have less than a high school diploma
 mapstate("percent", 1)
 ```
 
-From this plot, it is clear that the percentage of people who have a bachelor’s degree or higher went up from 1970 to 2015, while the percentage of people who have less than a high school diploma declined with time. 
+###`mapcounty`
 
-Function “mapcounty” has similar output with “mapstate”, except the names are county rather than state. The input parameters are “type”, “level”, “stateshort” and “limit”. Parameters “type” and “level” have the same usage with “mapstate’. Parameter “stateshort” is the two-letter abbreviated state name. Parameter “limit” means, if a county who has a percentage greater than “limit”, the county name will be labeled; default “limit” is 28. For example, if we use following command to look for people with Bachelor's degree in Iowa, figure below is the output. The labeled counties are adult percentage higher than 28%. In this plot, we can see for bachelor degree or higher level, there are increasing number of counties whose percentage are larger than thirty.
+Function “mapcounty” has similar output with “mapstate”, except that the map is one specific state rather than US and units are county rather than state. The input parameters are “type”, “level”, “stateshort” and “limit”. Parameters “type” and “level” have the same with the usage in function “mapstate’. Parameter “stateshort” is the two-letter abbreviated state name. Parameter “limit” means, under an educational level, if a county who has an average percentage of people greater than “limit”, the county name will be labeled; default “limit” is 28. For example, if we use following command to look for people with Bachelor's degree in Iowa, figure below is the output. The labeled counties are adult percentage higher than 28%. In this plot, we can see for bachelor degree or higher level, there are increasing number of counties whose percentage are larger than thirty. In 1970-1990, only the percent of people with Bachelor’s degree in Story county and Johnson county are greater than 28%.
 
 
 ```{r, message=FALSE,warning=FALSE}
+#People with Bachelor’s degree in Iowa
 mapcounty("percent",levelint = 4,stateshort="IA",limit=28)
 ```
 
 
 ## 4. Shiny app
 
-For users who are not familiar with R, shiny app is a friendly tool. Also, the shiny app could provide more intuitive user interface. There are two navigation tab in shiny app which are "Plot" and "Data". The Plot tab contains plots on country level (“mapstate”), state level ("mapcounty") and county level ("lineEd"). There are four widget in total for user to control the variables on the Plot tab. The first one is a radio button with choices of “count” or “percent”. The second one is a select input button with choices of all state names, the third one is also a select box with choices of county names for a chosen state. The last one is a radio button of four education levels. The other navigation tab Data contains all tidy data of education level in the US. There are a few widgets for users to filter the data of interest. This table has similar function as the dataset in R. The user could select the state, county, year, education level and value type (count or percent) using select box. 
+For users who are not familiar with R, shiny app is a friendly tool. Also, the shiny app could provide more intuitive user interface. There are two navigation tab in shiny app which are "Plot" and "Data". The Plot tab contains plots on country level (“mapstate”), state level ("mapcounty") and county level ("lineEd"). The three plots are in three panel. There are four widgets in total for user to control the variables on the Plot tab. The first one is a radio button with choices of “count” or “percent”. The second one is a select input button with choices of all state names, the third one is also a select box with choices of county names for a chosen state. The last one is a radio button of four education levels. The other navigation tab Data contains all tidy data of education level in the US. There are a few widgets for users to filter the data of interest. This table has similar function as the dataset in R. The user could select the state, county, year, education level and value type (count or percent) using select box. 
+
+Please use link below to open shiny app:
+<https://github.com/Xiangmei21/585-project/blob/master/shiny%20app/shinyapp_final_version.R>
 
 ## 5. Conclusion
 
@@ -112,7 +132,22 @@ The R package “Edulevel” is more suitable for users who have experience in R
 
 ## 6. Appendix
 
-The raw data, `Edulevel` package and Shiny app are available at Github, the path is: <https://github.com/Xiangmei21/585-project>
+The Github repository path is: 
+<https://github.com/Xiangmei21/585-project>
+
+The Package path is:
+<https://github.com/Xiangmei21/585-project/tree/master/Edulevel>
+
+The Shiny app path is:
+<https://github.com/Xiangmei21/585-project/blob/master/shiny%20app/shinyapp_final_version.R>
+
+The code to clean data path is:
+<https://github.com/Xiangmei21/585-project/blob/master/585%20project.R>
+
+The raw data path is:
+<https://github.com/Xiangmei21/585-project/blob/master/Education.xls>
+
+
 
 
 
