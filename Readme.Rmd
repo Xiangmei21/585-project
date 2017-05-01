@@ -31,6 +31,10 @@ mapstate(vtype="percent",levelint = 4)
 mapcounty(levelint = 4,stateshort = "AL",limit = 30)
 ```
 
+
+The Package path is:
+<https://github.com/Xiangmei21/585-project/tree/master/Edulevel>
+
 ## Shiny app
 
 The Shiny app path is:
