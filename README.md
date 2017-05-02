@@ -59,3 +59,17 @@ mapstate(vtype="percent",levelint = 4)
 mapcounty(levelint = 4,stateshort = "AL",limit = 30)
 ```
 ![](readme_images/unnamed-chunk-5-1.png)<!-- -->
+
+The Package path is:
+<https://github.com/Xiangmei21/585-project/tree/master/Edulevel>
+
+## Shiny app
+
+The Shiny app path is:
+<https://github.com/Xiangmei21/585-project/blob/master/shiny%20app/shinyapp_final_version.R>
+
+The code to clean data path is:
+<https://github.com/Xiangmei21/585-project/blob/master/585%20project.R>
+
+The raw data path is:
+<https://github.com/Xiangmei21/585-project/blob/master/Education.xls>
